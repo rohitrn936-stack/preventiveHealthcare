@@ -7,9 +7,8 @@ class FirestoreService {
   // Generate Child ID
   // -------------------------------
   Future<String> generateChildID() async {
-    final DocumentReference counterRef = _firestore
-        .collection("counters")
-        .doc("childCounter");
+    final DocumentReference counterRef =
+        _firestore.collection("counters").doc("childCounter");
 
     return await _firestore.runTransaction((transaction) async {
       final DocumentSnapshot snapshot = await transaction.get(counterRef);
@@ -19,11 +18,15 @@ class FirestoreService {
       if (!snapshot.exists) {
         currentNumber = 1;
 
-        transaction.set(counterRef, {"current": currentNumber});
+        transaction.set(counterRef, {
+          "current": currentNumber,
+        });
       } else {
         currentNumber = (snapshot["current"] as int) + 1;
 
-        transaction.update(counterRef, {"current": currentNumber});
+        transaction.update(counterRef, {
+          "current": currentNumber,
+        });
       }
 
       return "CH${currentNumber.toString().padLeft(4, '0')}";
@@ -43,10 +46,8 @@ class FirestoreService {
     required int ageYears,
     required int ageMonths,
   }) async {
-    // Generate a unique Child ID
     final String childID = await generateChildID();
 
-    // Save child details to Firestore
     await _firestore.collection("children").doc(childID).set({
       "childID": childID,
       "childName": childName,
@@ -61,5 +62,15 @@ class FirestoreService {
     });
 
     return childID;
+  }
+
+  // -------------------------------
+  // Get Child Details
+  // -------------------------------
+  Future<DocumentSnapshot> getChild(String childID) async {
+    return await _firestore
+        .collection("children")
+        .doc(childID)
+        .get();
   }
 }

@@ -1,18 +1,47 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:web_page/services/firestore_service.dart';
+import 'package:web_page/pages/screening_page.dart';
 
 class ChildDetailPage extends StatefulWidget {
   final String childID;
 
-  const ChildDetailPage({
-    super.key,
-    required this.childID,
-  });
+  const ChildDetailPage({super.key, required this.childID});
 
   @override
   State<ChildDetailPage> createState() => _ChildDetailPageState();
 }
 
 class _ChildDetailPageState extends State<ChildDetailPage> {
+  final FirestoreService firestoreService = FirestoreService();
+
+  late Future<DocumentSnapshot> childFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    childFuture = firestoreService.getChild(widget.childID);
+  }
+
+  Widget detailTile(String title, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 170,
+            child: Text(
+              title,
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 17),
+            ),
+          ),
+          Expanded(child: Text(value, style: const TextStyle(fontSize: 17))),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,46 +55,99 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
       ),
 
       body: Center(
-        child: Container(
-          width: 600,
-          padding: const EdgeInsets.all(30),
+        child: FutureBuilder<DocumentSnapshot>(
+          future: childFuture,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const CircularProgressIndicator();
+            }
 
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(20),
-          ),
+            if (snapshot.hasError) {
+              return const Text("Error loading child details.");
+            }
 
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                "Child Details",
-                style: TextStyle(
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                ),
+            if (!snapshot.hasData || !snapshot.data!.exists) {
+              return const Text("Child not found.");
+            }
+
+            final data = snapshot.data!.data() as Map<String, dynamic>;
+
+            return Container(
+              width: 700,
+              padding: const EdgeInsets.all(30),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(20),
               ),
 
-              const SizedBox(height: 25),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      "Child Details",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
 
-              Text(
-                "Child ID : ${widget.childID}",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  color: Colors.deepPurple,
-                ),
+                  const SizedBox(height: 35),
+
+                  detailTile("Child ID", data["childID"]),
+                  detailTile("Child Name", data["childName"]),
+                  detailTile("Guardian", data["guardianName"]),
+                  detailTile("Gender", data["gender"]),
+                  detailTile("Phone", data["phone"]),
+                  detailTile("Village", data["village"]),
+                  detailTile(
+                    "Age",
+                    "${data["ageYears"]} Years ${data["ageMonths"]} Months",
+                  ),
+
+                  const SizedBox(height: 40),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: OutlinedButton(
+                      onPressed: () {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              "Screening history will be implemented next.",
+                            ),
+                          ),
+                        );
+                      },
+                      child: const Text("View Screening History"),
+                    ),
+                  ),
+
+                  const SizedBox(height: 15),
+
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ScreeningPage(childID: widget.childID),
+                          ),
+                        );
+                      },
+                      child: const Text("Start New Screening"),
+                    ),
+                  ),
+                ],
               ),
-
-              const SizedBox(height: 30),
-
-              const Text(
-                "Child information will be loaded from Firebase here.",
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
+            );
+          },
         ),
       ),
     );
