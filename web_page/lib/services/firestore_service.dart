@@ -7,8 +7,9 @@ class FirestoreService {
   // Generate Child ID
   // -------------------------------
   Future<String> generateChildID() async {
-    final DocumentReference counterRef =
-        _firestore.collection("counters").doc("childCounter");
+    final DocumentReference counterRef = _firestore
+        .collection("counters")
+        .doc("childCounter");
 
     return await _firestore.runTransaction((transaction) async {
       final DocumentSnapshot snapshot = await transaction.get(counterRef);
@@ -18,15 +19,11 @@ class FirestoreService {
       if (!snapshot.exists) {
         currentNumber = 1;
 
-        transaction.set(counterRef, {
-          "current": currentNumber,
-        });
+        transaction.set(counterRef, {"current": currentNumber});
       } else {
         currentNumber = (snapshot["current"] as int) + 1;
 
-        transaction.update(counterRef, {
-          "current": currentNumber,
-        });
+        transaction.update(counterRef, {"current": currentNumber});
       }
 
       return "CH${currentNumber.toString().padLeft(4, '0')}";
@@ -68,9 +65,39 @@ class FirestoreService {
   // Get Child Details
   // -------------------------------
   Future<DocumentSnapshot> getChild(String childID) async {
+    return await _firestore.collection("children").doc(childID).get();
+  }
+
+  // -------------------------------
+  // Get Screening History
+  // -------------------------------
+  Future<QuerySnapshot> getScreenings(String childID) async {
     return await _firestore
         .collection("children")
         .doc(childID)
+        .collection("screenings")
+        .orderBy("screeningDate", descending: true)
+        .get();
+  }
+
+  // -------------------------------
+  // Search by Child ID
+  // -------------------------------
+  Future<QuerySnapshot> searchByChildID(String childID) async {
+    return await _firestore
+        .collection("children")
+        .where("childID", isEqualTo: childID)
+        .get();
+  }
+
+  // -------------------------------
+  // Search by Child Name
+  // -------------------------------
+  Future<QuerySnapshot> searchByChildName(String childName) async {
+    return await _firestore
+        .collection("children")
+        .where("childName", isGreaterThanOrEqualTo: childName)
+        .where("childName", isLessThan: "$childName\uf8ff")
         .get();
   }
 }

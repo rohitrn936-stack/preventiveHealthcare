@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:web_page/services/firestore_service.dart';
 import 'package:web_page/pages/screening_page.dart';
+import 'package:web_page/pages/screening_history_page.dart';
 
 class ChildDetailPage extends StatefulWidget {
   final String childID;
@@ -112,17 +113,18 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
                   SizedBox(
                     width: double.infinity,
                     height: 50,
-                    child: OutlinedButton(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.history),
+                      label: const Text("View Screening History"),
                       onPressed: () {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              "Screening history will be implemented next.",
-                            ),
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                ScreeningHistoryPage(childID: widget.childID),
                           ),
                         );
                       },
-                      child: const Text("View Screening History"),
                     ),
                   ),
 
@@ -131,7 +133,9 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
                   SizedBox(
                     width: double.infinity,
                     height: 50,
-                    child: ElevatedButton(
+                    child: ElevatedButton.icon(
+                      icon: const Icon(Icons.play_arrow),
+                      label: const Text("Start New Screening"),
                       onPressed: () {
                         Navigator.push(
                           context,
@@ -141,7 +145,6 @@ class _ChildDetailPageState extends State<ChildDetailPage> {
                           ),
                         );
                       },
-                      child: const Text("Start New Screening"),
                     ),
                   ),
                 ],

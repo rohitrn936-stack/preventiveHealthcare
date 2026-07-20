@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_page/pages/register_child_page.dart';
+import 'package:web_page/pages/search_child_page.dart';
 
 class PortalPage extends StatelessWidget {
   const PortalPage({super.key});
@@ -94,6 +95,12 @@ class PortalPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
 
                 onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const SearchChildPage(),
+                    ),
+                  );
                   // Navigate to Search Page
                 },
 

@@ -4,17 +4,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
 import 'package:web_page/pages/login_page.dart';
-import 'package:web_page/pages/portal_page.dart';
-import 'package:web_page/pages/register_child_page.dart';
 
-void main() async {
-  // Makes sure Flutter is fully initialized before Firebase starts.
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Connects your Flutter app to Firebase.
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
 
-  // Starts the Flutter application.
   runApp(const MyApp());
 }
 
@@ -25,8 +22,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Child Screening Portal',
-      home: const RegisterChildPage(),
+
+      title: 'ShishuCare AI',
+
+      theme: ThemeData(
+        useMaterial3: true,
+
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.deepPurple,
+        ),
+
+        scaffoldBackgroundColor: Colors.deepPurple.shade50,
+      ),
+
+      home: const LoginPage(),
     );
   }
 }
