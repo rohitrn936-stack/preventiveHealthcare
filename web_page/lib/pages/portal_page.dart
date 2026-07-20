@@ -16,34 +16,22 @@ class PortalPage extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(20),
-            boxShadow: const [
-              BoxShadow(
-                blurRadius: 15,
-                color: Colors.black12,
-              ),
-            ],
+            boxShadow: const [BoxShadow(blurRadius: 15, color: Colors.black12)],
           ),
 
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-
               const Text(
                 "Child Screening Portal",
-                style: TextStyle(
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                ),
+                style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
               ),
 
               const SizedBox(height: 10),
 
               const Text(
                 "Choose an option below",
-                style: TextStyle(
-                  fontSize: 18,
-                  color: Colors.grey,
-                ),
+                style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
 
               const SizedBox(height: 40),
@@ -52,7 +40,7 @@ class PortalPage extends StatelessWidget {
                 borderRadius: BorderRadius.circular(20),
 
                 onTap: () {
-                  // Navigate to Register 
+                  // Navigate to Register
                 },
 
                 child: Card(
@@ -67,7 +55,6 @@ class PortalPage extends StatelessWidget {
 
                     child: Row(
                       children: [
-
                         Icon(
                           Icons.person_add,
                           size: 50,
@@ -114,12 +101,7 @@ class PortalPage extends StatelessWidget {
 
                     child: Row(
                       children: [
-
-                        Icon(
-                          Icons.search,
-                          size: 50,
-                          color: Colors.deepPurple,
-                        ),
+                        Icon(Icons.search, size: 50, color: Colors.deepPurple),
 
                         SizedBox(width: 25),
 

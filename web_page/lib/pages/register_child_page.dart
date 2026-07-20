@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:web_page/services/firestore_service.dart';
+import 'package:web_page/pages/child_detail_page.dart';
 
 class RegisterChildPage extends StatefulWidget {
   const RegisterChildPage({super.key});
@@ -23,6 +25,8 @@ class _RegisterChildPageState extends State<RegisterChildPage> {
   int calculatedYears = 0;
   int calculatedMonths = 0;
 
+  final FirestoreService firestoreService = FirestoreService();
+
   @override
   void dispose() {
     childNameController.dispose();
@@ -32,6 +36,45 @@ class _RegisterChildPageState extends State<RegisterChildPage> {
     dobController.dispose();
 
     super.dispose();
+  }
+
+  Future<void> _registerChild() async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    if (selectedDate == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please select the child's date of birth."),
+        ),
+      );
+      return;
+    }
+
+    try {
+      final String childID = await firestoreService.registerChild(
+        childName: childNameController.text.trim(),
+        guardianName: guardianController.text.trim(),
+        phone: phoneController.text.trim(),
+        village: villageController.text.trim(),
+        gender: selectedGender!,
+        dob: selectedDate!,
+        ageYears: calculatedYears,
+        ageMonths: calculatedMonths,
+      );
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChildDetailPage(childID: childID),
+        ),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text("Registration Failed: $e")));
+    }
   }
 
   @override
@@ -131,17 +174,6 @@ class _RegisterChildPageState extends State<RegisterChildPage> {
                         });
                       }
                     },
-                  ),
-
-                  const SizedBox(height: 15),
-
-                  Text(
-                    "Calculated Age : $calculatedYears Years  $calculatedMonths Months",
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.deepPurple,
-                    ),
                   ),
 
                   const SizedBox(height: 20),
@@ -248,14 +280,8 @@ class _RegisterChildPageState extends State<RegisterChildPage> {
                     height: 50,
 
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("Registration Successful!"),
-                            ),
-                          );
-                        }
+                      onPressed: () async {
+                        await _registerChild();
                       },
 
                       child: const Text("Continue"),

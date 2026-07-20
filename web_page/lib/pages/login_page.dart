@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:web_page/pages/child_detail_page.dart';
+import 'package:web_page/pages/portal_page.dart';
 
 class LoginPage extends StatelessWidget {
   const LoginPage({super.key});
@@ -75,9 +76,8 @@ class LoginPage extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => const ChildDetailPage(),
+                        builder: (context) => const PortalPage(),
                       ),
-
                     );
                   },
                   child: const Text("LOGIN"),
