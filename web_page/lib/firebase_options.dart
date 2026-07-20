@@ -21,25 +21,13 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for ios - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -55,6 +43,41 @@ class DefaultFirebaseOptions {
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCmxoDKDZ-IoPWVag06m4N-1sON2539Phc',
     appId: '1:834314998816:web:ed96c9387d83106017d845',
+    messagingSenderId: '834314998816',
+    projectId: 'childscreeningsystems-561e0',
+    authDomain: 'childscreeningsystems-561e0.firebaseapp.com',
+    storageBucket: 'childscreeningsystems-561e0.firebasestorage.app',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDyq55_CboP9dMQ3Vyn1uw9s97OoCkeKsI',
+    appId: '1:834314998816:ios:6a29b5285e59a09d17d845',
+    messagingSenderId: '834314998816',
+    projectId: 'childscreeningsystems-561e0',
+    storageBucket: 'childscreeningsystems-561e0.firebasestorage.app',
+    iosBundleId: 'com.example.webPage',
+  );
+
+  static const FirebaseOptions ios = FirebaseOptions(
+    apiKey: 'AIzaSyDyq55_CboP9dMQ3Vyn1uw9s97OoCkeKsI',
+    appId: '1:834314998816:ios:6a29b5285e59a09d17d845',
+    messagingSenderId: '834314998816',
+    projectId: 'childscreeningsystems-561e0',
+    storageBucket: 'childscreeningsystems-561e0.firebasestorage.app',
+    iosBundleId: 'com.example.webPage',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyBVwVNKj2XVm28oo5m1Dl4VCcffs1TG7oE',
+    appId: '1:834314998816:android:f28fee39f9830b2e17d845',
+    messagingSenderId: '834314998816',
+    projectId: 'childscreeningsystems-561e0',
+    storageBucket: 'childscreeningsystems-561e0.firebasestorage.app',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyCmxoDKDZ-IoPWVag06m4N-1sON2539Phc',
+    appId: '1:834314998816:web:0ffce9f8b2ed482317d845',
     messagingSenderId: '834314998816',
     projectId: 'childscreeningsystems-561e0',
     authDomain: 'childscreeningsystems-561e0.firebaseapp.com',

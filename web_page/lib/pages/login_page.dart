@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:web_page/pages/child_detail_page.dart';
 import 'package:web_page/pages/portal_page.dart';
 
 class LoginPage extends StatelessWidget {
