@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:web_page/services/firestore_service.dart';
 import 'package:web_page/pages/screening_page.dart';
+import 'package:web_page/pages/screening_page.dart';
 import 'package:web_page/pages/screening_history_page.dart';
 
 class ChildDetailPage extends StatefulWidget {

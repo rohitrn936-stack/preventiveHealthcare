@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:web_page/data/screening_checklists.dart';
@@ -101,7 +100,7 @@ class _ScreeningPageState extends State<ScreeningPage> {
 
           return Center(
             child: Container(
-              width: 900,
+              constraints: const BoxConstraints(maxWidth: 900),
               margin: const EdgeInsets.all(20),
               padding: const EdgeInsets.all(30),
               decoration: BoxDecoration(
@@ -122,14 +121,20 @@ class _ScreeningPageState extends State<ScreeningPage> {
                       ),
                     ),
                     const SizedBox(height: 30),
-                    Text("Child ID : ${data["childID"]}",
-                        style: const TextStyle(fontSize: 18)),
+                    Text(
+                      "Child ID : ${data["childID"]}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
                     const SizedBox(height: 8),
-                    Text("Child Name : ${data["childName"]}",
-                        style: const TextStyle(fontSize: 18)),
+                    Text(
+                      "Child Name : ${data["childName"]}",
+                      style: const TextStyle(fontSize: 18),
+                    ),
                     const SizedBox(height: 8),
-                    Text("Age : $years Years $months Months",
-                        style: const TextStyle(fontSize: 18)),
+                    Text(
+                      "Age : $years Years $months Months",
+                      style: const TextStyle(fontSize: 18),
+                    ),
                     const SizedBox(height: 25),
                     Center(
                       child: Text(
